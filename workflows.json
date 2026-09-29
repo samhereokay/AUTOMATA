@@ -1,0 +1,166 @@
+[
+  {
+    "id": "J1x2y3z4",
+    "name": "Research Workflow",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "research",
+          "responseMode": "onReceived",
+          "options": {}
+        },
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [ 250, 300 ],
+        "webhookId": "research.web"
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              { "name": "result", "value": "Mocked Web Research Result for: {{$json.body.prompt}}" }
+            ]
+          },
+          "options": {}
+        },
+        "name": "Set Result",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [ 450, 300 ]
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [ { "node": "Set Result", "type": "main", "index": 0 } ]
+        ]
+      }
+    },
+    "active": true
+  },
+  {
+    "id": "W5a6b7c8",
+    "name": "Writer Workflow",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "writer",
+          "responseMode": "onReceived",
+          "options": {}
+        },
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [ 250, 300 ],
+        "webhookId": "writer.general"
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              { "name": "result", "value": "Mocked Written Content for: {{$json.body.prompt}}" }
+            ]
+          },
+          "options": {}
+        },
+        "name": "Set Result",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [ 450, 300 ]
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [ { "node": "Set Result", "type": "main", "index": 0 } ]
+        ]
+      }
+    },
+    "active": true
+  },
+  {
+    "id": "T9d0e1f2",
+    "name": "Telegram Assistant",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "telegram",
+          "responseMode": "onReceived",
+          "options": {}
+        },
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [ 250, 300 ],
+        "webhookId": "assistant.telegram"
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              { "name": "result", "value": "Sent to Telegram: {{$json.body.prompt}}" }
+            ]
+          },
+          "options": {}
+        },
+        "name": "Set Result",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [ 450, 300 ]
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [ { "node": "Set Result", "type": "main", "index": 0 } ]
+        ]
+      }
+    },
+    "active": true
+  },
+  {
+    "id": "S3g4h5i6",
+    "name": "SSMA Content",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "ssma",
+          "responseMode": "onReceived",
+          "options": {}
+        },
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [ 250, 300 ],
+        "webhookId": "ssma.content"
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              { "name": "result", "value": "Posted to Social Media: {{$json.body.prompt}}" }
+            ]
+          },
+          "options": {}
+        },
+        "name": "Set Result",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [ 450, 300 ]
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [ { "node": "Set Result", "type": "main", "index": 0 } ]
+        ]
+      }
+    },
+    "active": true
+  }
+]
