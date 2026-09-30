@@ -7,10 +7,10 @@ export class N8nRestAPIClient implements N8nClient {
     try {
       // Map workflow ID to the webhook path
       const pathMap: Record<string, string> = {
-        'research.web': 'research',
-        'writer.general': 'writer',
-        'assistant.telegram': 'telegram',
-        'ssma.content': 'ssma'
+        'research.web': 'automata-research',
+        'writer.general': 'automata-writer',
+        'assistant.telegram': 'automata-telegram',
+        'ssma.content': 'automata-ssma'
       };
       const path = pathMap[workflowId] || workflowId;
 

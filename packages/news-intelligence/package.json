@@ -1,0 +1,21 @@
+{
+  "name": "news-intelligence",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx -y tsx --test test/*.test.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "pg": "^8.23.0",
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.23.1"
+  }
+}

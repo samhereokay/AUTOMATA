@@ -16,3 +16,6 @@ pnpm-debug.log*
 .vscode/
 *.sqlite
 database/data/
+database/backups/
+cookies.txt
+workflow_verification.json
