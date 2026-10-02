@@ -23,13 +23,32 @@ services:
       - automata_qdrant_data:/qdrant/storage
     restart: unless-stopped
 
+  automation-os:
+    build: .
+    container_name: automata-os
+    network_mode: "host"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=${DATABASE_URL:-postgres://automata:automata_password@localhost:5434/automata}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://localhost:11434/v1}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:3b}
+      - API_AUTH_TOKEN=${API_AUTH_TOKEN:-default_dev_token_please_change}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+      - PIPELINE_INTERVAL_MS=${PIPELINE_INTERVAL_MS:-0}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
   n8n:
     image: docker.n8n.io/n8nio/n8n
     container_name: automata-n8n
     environment:
       - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_HOST=postgres
-      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_HOST=localhost
+      - DB_POSTGRESDB_PORT=5434
       - DB_POSTGRESDB_DATABASE=automata
       - DB_POSTGRESDB_USER=automata
       - DB_POSTGRESDB_PASSWORD=automata_password
@@ -41,9 +60,8 @@ services:
       - N8N_PROTOCOL=http
       - NODE_ENV=production
       - WEBHOOK_URL=http://localhost:5678/
-      - GENERIC_TIMEZONE=UTC
-    ports:
-      - "5678:5678"
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    network_mode: "host"
     depends_on:
       - postgres
     volumes:

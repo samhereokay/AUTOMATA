@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Intelligence</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Configurable API Base. Can be overridden in production builds.
+    window.NEWS_API_BASE = window.NEWS_API_BASE || 'http://localhost:3000';
+  </script>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>News Intelligence</h1>
+      <nav>
+        <a href="#" id="nav-home">Latest</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="view-feed" class="view">
+      <div class="filters">
+        <input type="text" id="filter-search" placeholder="Search..." />
+        <select id="filter-category">
+          <option value="">All Categories</option>
+          <option value="cybersecurity">Cybersecurity</option>
+          <option value="forex">Forex</option>
+          <option value="markets">Markets</option>
+        </select>
+        <select id="filter-severity">
+          <option value="">All Severities</option>
+          <option value="critical">🔴 Critical</option>
+          <option value="high">🟠 High</option>
+          <option value="medium">🟡 Medium</option>
+          <option value="low">🟢 Low</option>
+        </select>
+      </div>
+
+      <div id="feed-status" class="status-msg"></div>
+      <div id="feed-container" class="feed-list"></div>
+      
+      <div class="pagination">
+        <button id="btn-prev" disabled>&larr; Prev</button>
+        <span id="page-info">Page 1</span>
+        <button id="btn-next" disabled>Next &rarr;</button>
+      </div>
+    </div>
+
+    <div id="view-story" class="view" style="display: none;">
+      <button id="btn-back" class="btn-secondary">&larr; Back to Feed</button>
+      <div id="story-container"></div>
+    </div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
