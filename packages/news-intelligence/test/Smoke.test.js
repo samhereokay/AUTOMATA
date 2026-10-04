@@ -44,6 +44,7 @@ class RealTelegramProvider {
     constructor(token) {
         this.token = token;
     }
+    isConfigured() { return true; }
     async sendMessage(chatId, message) {
         const url = `https://api.telegram.org/bot${this.token}/sendMessage`;
         const res = await fetch(url, {

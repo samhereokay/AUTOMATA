@@ -1,0 +1,21 @@
+Workflow ID,Workflow Name,Security Issues,Security Level
+10591,"[AUTOMATA][CYBERSECUR] Detect and route cybersecurity threats with SIEM Slack email and PagerDuty","Potential hardcoded secret or bearer token in parameters|Potential hardcoded secret or bearer token in parameters",MEDIUM
+10597,"[AUTOMATA][CYBERSECUR] Monitor cybersecurity compliance and send weekly reports via SIEM Jira Post","",LOW
+14410,"[AUTOMATA][CYBERSECUR] Automate cybersecurity threat analysis with GPT-4o CVSS scoring and risk rou","",LOW
+10242,"[AUTOMATA][CODING] Personalize resumes & cover letters with AI GitHub Pages and Google Drive","",LOW
+11181,"[AUTOMATA][DESIGN] Automate print-on-demand: design to Shopify with AI mockups & social promotion","Potential hardcoded secret or bearer token in parameters",MEDIUM
+14429,"[AUTOMATA][DOCUMENTS] Generate event e-ticket PDFs with QR codes using Google Workspace","",LOW
+2703,"[AUTOMATA][ASSISTANT] AI agent : Google calendar assistant using OpenAI","",LOW
+3859,"[AUTOMATA][ASSISTANT] Ai customer support assistant · WhatsApp ready · works for any business","",LOW
+5148,"[AUTOMATA][ARTIFICIAL] Local chatbot with retrieval augmented generation (RAG)","",LOW
+20028,"[AUTOMATA][DOCUMENTS] Create and send quote PDFs with OpenAI Gmail and Google Sheets","",LOW
+3586,"[AUTOMATA][DOCUMENTS] AI-powered WhatsApp chatbot 🤖📲 for text voice images & PDFs with memory 🧠","Potential hardcoded secret or bearer token in parameters",MEDIUM
+19932,"[AUTOMATA][SOCIAL-MED] Generate social media posts and images with Groq OpenAI and Google Drive","",LOW
+2557,"[AUTOMATA][NEWS] Hacker News to video content","",LOW
+4352,"[AUTOMATA][SOCIAL-MED] AI-powered multi-social media post automation: Google Trends & Perplexity AI","",LOW
+17010,"[AUTOMATA][SOCIAL-MED] Create and approve AI social posts with OpenAI Telegram and Blotato","",LOW
+4640,"[AUTOMATA][MONITORING] Competitor price monitoring with web scrapingGoogle Sheets & Telegram","",LOW
+2768,"[AUTOMATA][RESEARCH] 🤖🔍 The ultimate free AI-powered researcher with Tavily web search & extract","Potential hardcoded secret or bearer token in parameters|Potential hardcoded secret or bearer token in parameters|Potential hardcoded secret or bearer token in parameters",MEDIUM
+2883,"[AUTOMATA][RESEARCH] Open deep research - AI-powered autonomous research workflow","",LOW
+3291,"[AUTOMATA][RESEARCH] 🔍🛠️Generate SEO-optimized WordPress content with AI powered perplexity resear","",LOW
+10326,"[AUTOMATA][DESIGN] Generate QA test cases from Figma designs to Google Sheets using GPT-4o-mini","",LOW

@@ -3,34 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>News Intelligence</title>
+  <title>Automation OS — Control Panel</title>
+  <meta name="description" content="Automation OS Control Panel — monitor modules, executions, and cybersecurity intelligence feeds.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>
-    // Configurable API Base. Can be overridden in production builds.
     window.NEWS_API_BASE = window.NEWS_API_BASE || 'http://localhost:3000';
+    window.N8N_BASE = window.N8N_BASE || 'http://localhost:5678';
   </script>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <h1>News Intelligence</h1>
-      <nav>
-        <a href="#" id="nav-home">Latest</a>
-      </nav>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">⚡</div>
+    <div class="brand-text">
+      <span class="brand-name">Automation OS</span>
+      <span class="brand-version">v1.0.0</span>
     </div>
+  </div>
+
+  <ul class="nav-list" id="nav-list">
+    <li class="nav-item active" data-view="dashboard" id="nav-dashboard">
+      <span class="nav-icon">◈</span>
+      <span class="nav-label">Dashboard</span>
+    </li>
+    <li class="nav-item" data-view="automations" id="nav-automations">
+      <span class="nav-icon">◎</span>
+      <span class="nav-label">Automations</span>
+    </li>
+    <li class="nav-item" data-view="executions" id="nav-executions">
+      <span class="nav-icon">◷</span>
+      <span class="nav-label">Executions</span>
+    </li>
+    <li class="nav-item" data-view="news" id="nav-news">
+      <span class="nav-icon">◉</span>
+      <span class="nav-label">News Feed</span>
+    </li>
+    <li class="nav-item" data-view="settings" id="nav-settings">
+      <span class="nav-icon">◌</span>
+      <span class="nav-label">Settings</span>
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <div class="system-status" id="sidebar-status">
+      <span class="status-dot" id="status-dot-sidebar"></span>
+      <span id="status-label-sidebar">Connecting…</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-layout">
+  <header class="topbar">
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">☰</button>
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
+    <div class="topbar-actions" id="topbar-actions"></div>
   </header>
 
-  <main class="container">
-    <div id="view-feed" class="view">
-      <div class="filters">
-        <input type="text" id="filter-search" placeholder="Search..." />
-        <select id="filter-category">
+  <main class="content" id="content">
+
+    <!-- ── DASHBOARD VIEW ─────────────────────────────────────────────── -->
+    <div class="view active" id="view-dashboard">
+      <div class="view-header">
+        <h1 class="view-title">Dashboard</h1>
+        <p class="view-subtitle">System status and recent activity</p>
+      </div>
+
+      <!-- Status cards -->
+      <div class="grid-4" id="status-cards">
+        <div class="stat-card" id="card-backend">
+          <div class="stat-icon">🖥</div>
+          <div class="stat-body">
+            <div class="stat-label">Backend</div>
+            <div class="stat-value" id="stat-backend">—</div>
+          </div>
+        </div>
+        <div class="stat-card" id="card-n8n">
+          <div class="stat-icon">🔄</div>
+          <div class="stat-body">
+            <div class="stat-label">n8n</div>
+            <div class="stat-value" id="stat-n8n">—</div>
+          </div>
+        </div>
+        <div class="stat-card" id="card-active-modules">
+          <div class="stat-icon">◎</div>
+          <div class="stat-body">
+            <div class="stat-label">Active Modules</div>
+            <div class="stat-value" id="stat-active-modules">—</div>
+          </div>
+        </div>
+        <div class="stat-card" id="card-executions-today">
+          <div class="stat-icon">◷</div>
+          <div class="stat-body">
+            <div class="stat-label">Recent Executions</div>
+            <div class="stat-value" id="stat-recent-executions">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent executions -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Recent Executions</h2>
+          <a href="#" class="section-link" id="dash-executions-link">View all →</a>
+        </div>
+        <div id="dash-executions-container">
+          <div class="loading-state">Loading executions…</div>
+        </div>
+      </section>
+
+      <!-- Recent news -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Latest Cybersecurity News</h2>
+          <a href="#" class="section-link" id="dash-news-link">View all →</a>
+        </div>
+        <div id="dash-news-container">
+          <div class="loading-state">Loading news…</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── AUTOMATIONS VIEW ───────────────────────────────────────────── -->
+    <div class="view" id="view-automations">
+      <div class="view-header">
+        <h1 class="view-title">Automations</h1>
+        <p class="view-subtitle">All registered modules and their status</p>
+      </div>
+      <div class="module-grid" id="module-grid">
+        <div class="loading-state">Loading modules…</div>
+      </div>
+    </div>
+
+    <!-- ── EXECUTIONS VIEW ───────────────────────────────────────────── -->
+    <div class="view" id="view-executions">
+      <div class="view-header">
+        <h1 class="view-title">Executions</h1>
+        <p class="view-subtitle">Pipeline execution history</p>
+      </div>
+
+      <!-- Execution filters -->
+      <div class="filter-bar">
+        <select id="exec-filter-module" class="filter-select">
+          <option value="">All Modules</option>
+          <option value="cybersecurity-news">Cybersecurity News</option>
+        </select>
+        <select id="exec-filter-status" class="filter-select">
+          <option value="">All Statuses</option>
+          <option value="success">Success</option>
+          <option value="partial">Partial</option>
+          <option value="failure">Failure</option>
+          <option value="running">Running</option>
+        </select>
+        <button class="btn-secondary" id="exec-refresh-btn">⟳ Refresh</button>
+      </div>
+
+      <div id="executions-container">
+        <div class="loading-state">Loading executions…</div>
+      </div>
+      <div class="pagination" id="exec-pagination" style="display:none;">
+        <button id="exec-btn-prev" disabled>← Prev</button>
+        <span id="exec-page-info">Page 1</span>
+        <button id="exec-btn-next" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- ── EXECUTION DETAIL VIEW ─────────────────────────────────────── -->
+    <div class="view" id="view-execution-detail">
+      <div class="view-header">
+        <button class="btn-back" id="exec-detail-back">← Back to Executions</button>
+        <h1 class="view-title" id="exec-detail-title">Execution Detail</h1>
+      </div>
+      <div id="execution-detail-container">
+        <div class="loading-state">Loading execution…</div>
+      </div>
+    </div>
+
+    <!-- ── NEWS VIEW ─────────────────────────────────────────────────── -->
+    <div class="view" id="view-news">
+      <div class="view-header">
+        <h1 class="view-title">News Feed</h1>
+        <p class="view-subtitle">Cybersecurity intelligence from 7 authoritative sources</p>
+      </div>
+      <div class="filter-bar">
+        <input type="text" id="filter-search" class="filter-input" placeholder="Search headlines…">
+        <select id="filter-category" class="filter-select">
           <option value="">All Categories</option>
           <option value="cybersecurity">Cybersecurity</option>
           <option value="forex">Forex</option>
           <option value="markets">Markets</option>
+          <option value="ai">AI</option>
         </select>
-        <select id="filter-severity">
+        <select id="filter-severity" class="filter-select">
           <option value="">All Severities</option>
           <option value="critical">🔴 Critical</option>
           <option value="high">🟠 High</option>
@@ -38,23 +206,37 @@
           <option value="low">🟢 Low</option>
         </select>
       </div>
-
       <div id="feed-status" class="status-msg"></div>
       <div id="feed-container" class="feed-list"></div>
-      
       <div class="pagination">
-        <button id="btn-prev" disabled>&larr; Prev</button>
+        <button id="btn-prev" disabled>← Prev</button>
         <span id="page-info">Page 1</span>
-        <button id="btn-next" disabled>Next &rarr;</button>
+        <button id="btn-next" disabled>Next →</button>
       </div>
     </div>
 
-    <div id="view-story" class="view" style="display: none;">
-      <button id="btn-back" class="btn-secondary">&larr; Back to Feed</button>
+    <!-- ── STORY DETAIL VIEW ─────────────────────────────────────────── -->
+    <div class="view" id="view-story">
+      <div class="view-header">
+        <button class="btn-back" id="btn-back">← Back to News</button>
+      </div>
       <div id="story-container"></div>
     </div>
-  </main>
 
-  <script type="module" src="app.js"></script>
+    <!-- ── SETTINGS VIEW ─────────────────────────────────────────────── -->
+    <div class="view" id="view-settings">
+      <div class="view-header">
+        <h1 class="view-title">Settings</h1>
+        <p class="view-subtitle">Configuration status — secrets are managed via environment variables</p>
+      </div>
+      <div id="settings-container">
+        <div class="loading-state">Loading configuration status…</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>

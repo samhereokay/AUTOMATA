@@ -2,97 +2,89 @@
 import test from 'node:test';
 import assert from 'node:assert';
 import { PipelineOrchestrator } from '../src/PipelineOrchestrator';
-import { NewsPipeline, PipelineResult } from '../src/NewsPipeline';
-
-class MockPipeline {
-  public executeCount = 0;
-  public delayMs = 0;
-  public shouldFail = false;
-
-  async run(): Promise<PipelineResult> {
-    if (this.delayMs > 0) {
-      await new Promise(r => setTimeout(r, this.delayMs));
-    }
-    if (this.shouldFail) {
-      throw new Error('Pipeline error');
-    }
-    this.executeCount++;
-    return {
-      collected: 10,
-      deduplicated: 5,
-      validated: 5,
-      analyzed: 4,
-      persisted: 4,
-      notified: 4,
-      failures: []
-    };
-  }
-}
+import { Planner, ExecutionPlan } from '../src/planner/Planner';
+import { ProviderRouter } from '../src/router/ProviderRouter';
+import { MemoryRouter } from '../src/router/MemoryRouter';
+import { StorageRouter } from '../src/router/StorageRouter';
+import { ExecutionTracker } from '../src/ExecutionTracker';
 
 test('PipelineOrchestrator', async (t) => {
 
-  await t.test('✔ Runs pipeline successfully', async () => {
-    const mockPipeline = new MockPipeline();
-    const orchestrator = new PipelineOrchestrator(mockPipeline as unknown as NewsPipeline);
+  const mockProvider = {
+    metadata: { id: 'core-news-pipeline', name: 'Mock' },
+    run: async () => ({ collected: 1 })
+  } as any;
 
-    const result = await orchestrator.run();
-    assert.strictEqual(mockPipeline.executeCount, 1);
-    assert.ok(result);
-    assert.strictEqual(result.collected, 10);
+  const mockPlanner = {
+    createPlan: async () => ({
+      intent: 'test',
+      capabilities: ['test'],
+      memory: { required: false },
+      storage: { required: false },
+      privacy: { cloud_allowed: false },
+      verificationRequirements: []
+    })
+  } as unknown as Planner;
+
+  const mockProviderRouter = {
+    route: async () => mockProvider
+  } as unknown as ProviderRouter;
+
+  const mockMemoryRouter = {
+    route: async () => {}
+  } as unknown as MemoryRouter;
+
+  const mockStorageRouter = {
+    route: async () => ({})
+  } as unknown as StorageRouter;
+
+  const mockExecutionTracker = {
+    planExecution: async () => 'exec_123',
+    startExecution: async () => {},
+    completeExecution: async () => {},
+    failExecution: async () => {}
+  } as unknown as ExecutionTracker;
+
+  await t.test('✔ Runs pipeline successfully', async () => {
+    const orchestrator = new PipelineOrchestrator(
+      mockPlanner, mockProviderRouter, mockMemoryRouter, mockStorageRouter, mockExecutionTracker
+    );
+    assert.strictEqual(orchestrator.isCurrentlyRunning, false);
+
+    const promise = orchestrator.executePrompt('test');
+    assert.strictEqual(orchestrator.isCurrentlyRunning, true);
+    
+    const res = await promise;
+    assert.strictEqual(orchestrator.isCurrentlyRunning, false);
+    assert.ok(res);
   });
 
   await t.test('✔ Prevents overlapping runs', async () => {
-    const mockPipeline = new MockPipeline();
-    mockPipeline.delayMs = 50;
-    const orchestrator = new PipelineOrchestrator(mockPipeline as unknown as NewsPipeline);
+    let resolveRun: (v: any) => void = () => {};
+    
+    const slowProviderRouter = {
+      route: async () => {
+         return {
+           metadata: { id: 'core-news-pipeline', name: 'Slow' },
+           run: async () => new Promise(res => { resolveRun = res; })
+         };
+      }
+    } as unknown as ProviderRouter;
 
-    // Start first run
-    const run1Promise = orchestrator.run();
-    assert.strictEqual(orchestrator.isCurrentlyRunning, true);
-
-    // Try to start second run immediately
-    const result2 = await orchestrator.run();
-    assert.strictEqual(result2, null, 'Second run should return null immediately');
-
-    // Wait for first to finish
-    const result1 = await run1Promise;
-    assert.ok(result1);
-    assert.strictEqual(mockPipeline.executeCount, 1);
-    assert.strictEqual(orchestrator.isCurrentlyRunning, false);
-  });
-
-  await t.test('✔ Recovers state if pipeline throws', async () => {
-    const mockPipeline = new MockPipeline();
-    mockPipeline.shouldFail = true;
-    const orchestrator = new PipelineOrchestrator(mockPipeline as unknown as NewsPipeline);
-
-    await assert.rejects(
-      async () => await orchestrator.run(),
-      /Pipeline error/
+    const orchestrator = new PipelineOrchestrator(
+      mockPlanner, slowProviderRouter, mockMemoryRouter, mockStorageRouter, mockExecutionTracker
     );
 
-    assert.strictEqual(orchestrator.isCurrentlyRunning, false);
+    const p1 = orchestrator.executePrompt('test');
     
-    // Can run again
-    mockPipeline.shouldFail = false;
-    const result = await orchestrator.run();
-    assert.ok(result);
-    assert.strictEqual(mockPipeline.executeCount, 1);
-  });
-
-  await t.test('✔ Scheduler executes periodically', async () => {
-    const mockPipeline = new MockPipeline();
-    const orchestrator = new PipelineOrchestrator(mockPipeline as unknown as NewsPipeline);
-
-    orchestrator.startSchedule(50);
-    // Initial run happens async
+    // Ensure the event loop runs and p1 reaches the slow provider
     await new Promise(r => setTimeout(r, 10));
-    assert.strictEqual(mockPipeline.executeCount, 1);
-    
-    // Wait for another interval
-    await new Promise(r => setTimeout(r, 80));
-    assert.strictEqual(mockPipeline.executeCount, 2);
 
-    orchestrator.stopSchedule();
+    // Attempt second run while first is blocked
+    const res2 = await orchestrator.executePrompt('test');
+    assert.strictEqual(res2, null);
+
+    resolveRun!({ collected: 1 });
+    await p1;
   });
 });

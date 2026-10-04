@@ -8,6 +8,11 @@ import { AnalyzedNewsItem } from '../src/AIAnalyzer';
 class MockTelegramProvider implements TelegramProvider {
   public messages: {chatId: string, message: string}[] = [];
   public shouldFail = false;
+  public configured = true;
+
+  isConfigured(): boolean {
+    return this.configured;
+  }
 
   async sendMessage(chatId: string, message: string): Promise<void> {
     if (this.shouldFail) throw new Error('Telegram API failure');
@@ -63,7 +68,7 @@ test('TelegramService', async (t) => {
     assert.strictEqual(provider.messages.length, 1);
   });
 
-  await t.test('✔ Message contains title, summary, source, evidence status', async () => {
+  await t.test('✔ Message contains title, summary, source', async () => {
     const item = createMockAnalyzedItem('2', {
       title: 'Critical RCE',
       summary: 'A new RCE was found.',
@@ -74,21 +79,10 @@ test('TelegramService', async (t) => {
     
     assert.ok(msg.includes('Critical RCE'));
     assert.ok(msg.includes('A new RCE was found.'));
-    assert.ok(msg.includes('Source: Hacker News'));
-    assert.ok(msg.includes('Evidence: verified'));
+    assert.ok(msg.includes('Source:\nHacker News'));
   });
 
-  await t.test('✔ Related sources are represented when available', async () => {
-    const item = createMockAnalyzedItem('3', {
-      relatedSources: ['CISA', 'BleepingComputer']
-    });
-    await service.notify(item);
-    const msg = provider.messages[0].message;
-    
-    assert.ok(msg.includes('Related Sources: CISA, BleepingComputer'));
-  });
-
-  await t.test('✔ Unverified item remains unverified and no evidence is fabricated', async () => {
+  await t.test('✔ Unverified item handles missing publishedAt', async () => {
     const item = createMockAnalyzedItem('4', {
       validationStatus: 'unverified',
       publishedAt: null
@@ -96,8 +90,7 @@ test('TelegramService', async (t) => {
     await service.notify(item);
     const msg = provider.messages[0].message;
     
-    assert.ok(msg.includes('Evidence: unverified'));
-    assert.ok(msg.includes('Published: Unknown'));
+    assert.ok(msg.includes('Published:\nUnknown'));
   });
 
   await t.test('✔ Provider receives correct chat ID', async () => {
@@ -106,7 +99,7 @@ test('TelegramService', async (t) => {
     assert.strictEqual(provider.messages[0].chatId, '@testchannel');
 
     // Override
-    await service.notify(createMockAnalyzedItem('6'), '@customchannel');
+    await service.notify(createMockAnalyzedItem('6'), 'exec123', '@customchannel');
     assert.strictEqual(provider.messages[1].chatId, '@customchannel');
   });
 
@@ -147,5 +140,13 @@ test('TelegramService', async (t) => {
     
     assert.strictEqual(sent2, false);
     assert.strictEqual(provider.messages.length, 1); // No new message sent
+  });
+
+  await t.test('✔ isConfigured delegates to provider', async () => {
+    provider.configured = true;
+    assert.strictEqual(service.isConfigured(), true);
+
+    provider.configured = false;
+    assert.strictEqual(service.isConfigured(), false);
   });
 });

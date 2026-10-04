@@ -1,0 +1,42 @@
+{
+  "id": "cybersecurity-news",
+  "name": "Cybersecurity News",
+  "version": "1.0.0",
+  "status": "active",
+  "description": "Collects, deduplicates, AI-analyzes, and persists cybersecurity news from authoritative RSS sources. Sends structured Telegram alerts when configured.",
+  "capabilities": [
+    "collect_news",
+    "deduplicate",
+    "ai_analysis",
+    "persist",
+    "notify_telegram"
+  ],
+  "permissions": [
+    "network",
+    "database",
+    "telegram"
+  ],
+  "sources": [
+    { "id": "cybersec-cisa", "name": "CISA Cybersecurity Alerts", "type": "rss" },
+    { "id": "cybersec-thehacker", "name": "The Hacker News", "type": "rss" },
+    { "id": "cybersec-krebs", "name": "Krebs on Security", "type": "rss" },
+    { "id": "cybersec-bleeping", "name": "BleepingComputer", "type": "rss" },
+    { "id": "cybersec-securityweek", "name": "SecurityWeek", "type": "rss" },
+    { "id": "cybersec-darkreading", "name": "Dark Reading", "type": "rss" },
+    { "id": "cybersec-schneier", "name": "Schneier on Security", "type": "rss" }
+  ],
+  "schedule": "hourly",
+  "implementation": {
+    "collector": "packages/news-intelligence/src/CybersecCollector.ts",
+    "pipeline": "packages/news-intelligence/src/NewsPipeline.ts",
+    "trigger": "packages/news-intelligence/src/HttpTrigger.ts",
+    "repository": "packages/news-intelligence/src/persistence/PostgresNewsRepository.ts"
+  },
+  "api": {
+    "trigger": "POST /api/news/run",
+    "triggerGeneric": "POST /api/executions { module: 'cybersecurity-news' }",
+    "execution": "GET /api/executions/:id",
+    "verification": "GET /api/executions/:id/verification",
+    "feed": "GET /api/news?category=cybersecurity"
+  }
+}

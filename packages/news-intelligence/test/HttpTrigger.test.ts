@@ -9,12 +9,14 @@ test('HttpTrigger', async (t) => {
   let trigger: HttpTrigger;
   let orchestrator: any; // mock
   let feedService: any; // mock
+  let executionTracker: any; // mock
+  let moduleRegistry: any; // mock
   const port = 34567;
   const token = 'test-secret';
 
   t.beforeEach(async () => {
     orchestrator = {
-      run: async () => ({ collected: 10 }),
+      executePrompt: async () => ({ collected: 10 }),
       isCurrentlyRunning: false,
       startSchedule: () => {},
       stopSchedule: () => {}
@@ -26,10 +28,23 @@ test('HttpTrigger', async (t) => {
       search: async (query: string, options: any) => ({ items: [], pagination: { limit: 10, offset: 0, total: 0 } })
     };
     
+    executionTracker = {
+      listExecutions: async () => [{ id: 'exec_123', module: 'cybersecurity-news' }],
+      getExecution: async (id: string) => id === 'exec_123' ? { id: 'exec_123' } : null,
+      startExecution: async () => 'exec_abc',
+      completeExecution: async () => {},
+      failExecution: async () => {}
+    };
+
+    moduleRegistry = {
+      listModules: () => [{ id: 'cybersecurity-news', status: 'active' }],
+      getModule: (id: string) => id === 'cybersecurity-news' ? { id: 'cybersecurity-news', status: 'active' } : undefined
+    };
+    
     trigger = new HttpTrigger(orchestrator as unknown as PipelineOrchestrator, feedService, {
       port,
       authToken: token
-    });
+    }, executionTracker, moduleRegistry);
     await trigger.start();
   });
 
@@ -87,7 +102,7 @@ test('HttpTrigger', async (t) => {
 
   await t.test('✔ Overlapping run returns 409 conflict', async () => {
     // Make the mock orchestrator return null to simulate overlap
-    orchestrator.run = async () => null;
+    orchestrator.executePrompt = async () => null;
 
     const res = await makeRequest('POST', '/api/news/run', {
       'Authorization': `Bearer ${token}`
@@ -98,7 +113,7 @@ test('HttpTrigger', async (t) => {
 
   await t.test('✔ Pipeline failure returns 500 with structured error', async () => {
     // Make the mock orchestrator throw
-    orchestrator.run = async () => { throw new Error('Database down'); };
+    orchestrator.executePrompt = async () => { throw new Error('Database down'); };
 
     const res = await makeRequest('POST', '/api/news/run', {
       'Authorization': `Bearer ${token}`
@@ -202,4 +217,39 @@ test('HttpTrigger', async (t) => {
     assert.strictEqual(res.headers['access-control-allow-origin'], '*');
   });
 
+  await t.test('✔ GET /api/modules returns modules', async () => {
+    const res = await makeRequest('GET', '/api/modules');
+    assert.strictEqual(res.status, 200);
+    assert.deepStrictEqual(res.data.modules, [{ id: 'cybersecurity-news', status: 'active' }]);
+  });
+
+  await t.test('✔ GET /api/modules/:id returns specific module', async () => {
+    const res = await makeRequest('GET', '/api/modules/cybersecurity-news');
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(res.data.id, 'cybersecurity-news');
+  });
+
+  await t.test('✔ GET /api/executions requires auth', async () => {
+    const res = await makeRequest('GET', '/api/executions');
+    assert.strictEqual(res.status, 401);
+  });
+
+  await t.test('✔ GET /api/executions returns executions list', async () => {
+    const res = await makeRequest('GET', '/api/executions', { 'Authorization': `Bearer ${token}` });
+    assert.strictEqual(res.status, 200);
+    assert.deepStrictEqual(res.data.executions, [{ id: 'exec_123', module: 'cybersecurity-news' }]);
+  });
+
+  await t.test('✔ GET /api/executions/:id returns execution details', async () => {
+    const res = await makeRequest('GET', '/api/executions/exec_123', { 'Authorization': `Bearer ${token}` });
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(res.data.id, 'exec_123');
+  });
+
+  await t.test('✔ POST /api/executions executes module', async () => {
+    const res = await makeRequest('POST', '/api/executions', { 'Authorization': `Bearer ${token}` });
+    assert.strictEqual(res.status, 201);
+    assert.strictEqual(res.data.status, 'success');
+    assert.strictEqual(res.data.module, 'cybersecurity-news');
+  });
 });

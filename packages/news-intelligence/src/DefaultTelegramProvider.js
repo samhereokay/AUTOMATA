@@ -6,8 +6,11 @@ class DefaultTelegramProvider {
     constructor(token) {
         this.token = token;
     }
+    isConfigured() {
+        return !!(this.token && this.token.trim().length > 0);
+    }
     async sendMessage(chatId, message) {
-        if (!this.token) {
+        if (!this.isConfigured()) {
             throw new Error('Telegram token not configured');
         }
         const url = `https://api.telegram.org/bot${this.token}/sendMessage`;

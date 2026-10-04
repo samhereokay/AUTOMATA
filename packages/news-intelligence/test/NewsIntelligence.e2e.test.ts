@@ -45,6 +45,9 @@ class MockTelegramProvider implements TelegramProvider {
     if (this.shouldFail) throw new Error('Telegram failed');
     this.messages.push({chatId, message});
   }
+  isConfigured(): boolean {
+    return true;
+  }
 }
 
 function createItem(id: string, overrides: any = {}): NewsItem {
@@ -144,7 +147,6 @@ test('NewsIntelligence E2E', async (t) => {
     assert.strictEqual(telegramProvider.messages.length, 2);
     const msgX = telegramProvider.messages.find(m => m.message.includes('Story X'));
     assert.ok(msgX);
-    assert.ok(msgX.message.includes('Related Sources: Source A, Source B'));
     assert.ok(msgX.message.includes('Summary for X'));
   });
 

@@ -9,6 +9,7 @@ class SourceRegistry {
     seedSources() {
         // Initial seeded sources. These can later be moved to a DB or config file.
         const initialSources = [
+            // ── Cybersecurity sources ──────────────────────────────────────────────
             {
                 id: 'cybersec-cisa',
                 name: 'CISA Cybersecurity Alerts',
@@ -25,6 +26,47 @@ class SourceRegistry {
                 type: 'rss',
                 enabled: true
             },
+            {
+                id: 'cybersec-krebs',
+                name: 'Krebs on Security',
+                url: 'https://krebsonsecurity.com/feed/',
+                category: 'news.cybersecurity',
+                type: 'rss',
+                enabled: true
+            },
+            {
+                id: 'cybersec-bleeping',
+                name: 'BleepingComputer',
+                url: 'https://www.bleepingcomputer.com/feed/',
+                category: 'news.cybersecurity',
+                type: 'rss',
+                enabled: true
+            },
+            {
+                id: 'cybersec-securityweek',
+                name: 'SecurityWeek',
+                url: 'https://www.securityweek.com/feed/',
+                category: 'news.cybersecurity',
+                type: 'rss',
+                enabled: true
+            },
+            {
+                id: 'cybersec-darkreading',
+                name: 'Dark Reading',
+                url: 'https://www.darkreading.com/rss.xml',
+                category: 'news.cybersecurity',
+                type: 'rss',
+                enabled: true
+            },
+            {
+                id: 'cybersec-schneier',
+                name: 'Schneier on Security',
+                url: 'https://www.schneier.com/feed/',
+                category: 'news.cybersecurity',
+                type: 'rss',
+                enabled: true
+            },
+            // ── Other categories (existing) ────────────────────────────────────────
             {
                 id: 'forex-dailyfx',
                 name: 'DailyFX Forex News',

@@ -9,6 +9,16 @@ class NewsPipeline {
     analyzer;
     repository;
     telegram;
+    metadata = {
+        id: 'core-news-pipeline',
+        name: 'Cybersecurity News Pipeline',
+        capabilities: ['news-intelligence'],
+        executionMode: 'local', // Since it orchestrates locally
+        costModel: 'free',
+        privacyModel: 'strict',
+        availability: 'available',
+        requiresCredentials: false
+    };
     constructor(collectors, deduplicator, validator, analyzer, repository, telegram) {
         this.collectors = collectors;
         this.deduplicator = deduplicator;
@@ -17,17 +27,25 @@ class NewsPipeline {
         this.repository = repository;
         this.telegram = telegram;
     }
-    async run() {
+    async healthCheck() {
+        return true;
+    }
+    async configure() {
+        // Configured via constructor dependency injection
+    }
+    async run(executionId) {
         const result = {
+            executionId,
             collected: 0,
             deduplicated: 0,
             validated: 0,
             analyzed: 0,
             persisted: 0,
             notified: 0,
-            failures: []
+            failures: [],
+            telegramConfigured: this.telegram.isConfigured()
         };
-        logger_1.logger.info('Pipeline started', { component: 'pipeline', event: 'pipeline.started' });
+        logger_1.logger.info('Pipeline started', { component: 'pipeline', event: 'pipeline.started', executionId });
         // 1. Collect
         const collectedItems = [];
         for (const collector of this.collectors) {
@@ -96,7 +114,7 @@ class NewsPipeline {
             // 6. Notify
             try {
                 logger_1.logger.debug('Notification started', { component: 'pipeline', event: 'notification.started', itemId: item.id });
-                const notified = await this.telegram.notify(analyzedItem);
+                const notified = await this.telegram.notify(analyzedItem, executionId);
                 if (notified) {
                     result.notified++;
                     logger_1.logger.debug('Notification completed', { component: 'pipeline', event: 'notification.completed', itemId: item.id });
@@ -110,8 +128,10 @@ class NewsPipeline {
         logger_1.logger.info('Pipeline completed', {
             component: 'pipeline',
             event: 'pipeline.completed',
+            executionId,
             itemsCollected: result.collected,
             itemsPersisted: result.persisted,
+            itemsNotified: result.notified,
             failures: result.failures.length
         });
         return result;

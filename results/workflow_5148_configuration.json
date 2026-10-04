@@ -1,0 +1,16 @@
+{
+  "workflow_id": "5148",
+  "configured": true,
+  "active": false,
+  "executed": false,
+  "chat_model": "qwen2.5:3b",
+  "embedding_model": "nomic-embed-text",
+  "embedding_dimension": 768,
+  "vector_store": "Qdrant",
+  "collection": "rag_collection",
+  "cloud_ai_dependencies": [],
+  "hardcoded_secrets": false,
+  "static_validation": "PASS",
+  "security_status": "Form Trigger disabled/inactive due to lack of authentication mechanism",
+  "remaining_blockers": []
+}

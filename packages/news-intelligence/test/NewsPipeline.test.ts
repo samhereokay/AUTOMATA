@@ -37,6 +37,7 @@ class MockAIProvider implements AIProvider {
 class MockTelegramProvider implements TelegramProvider {
   public shouldFail = false;
   public messages: any[] = [];
+  isConfigured(): boolean { return true; }
   async sendMessage(chatId: string, message: string): Promise<void> {
     if (this.shouldFail) throw new Error('Telegram failed');
     this.messages.push({chatId, message});
@@ -222,7 +223,7 @@ test('NewsPipeline', async (t) => {
     
     const res = await pipeline.run();
     assert.deepStrictEqual(Object.keys(res).sort(), [
-      'analyzed', 'collected', 'deduplicated', 'failures', 'notified', 'persisted', 'validated'
+      'analyzed', 'collected', 'deduplicated', 'executionId', 'failures', 'notified', 'persisted', 'telegramConfigured', 'validated'
     ]);
   });
 });

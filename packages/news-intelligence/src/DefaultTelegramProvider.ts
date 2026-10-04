@@ -3,8 +3,12 @@ import { TelegramProvider } from './TelegramService';
 export class DefaultTelegramProvider implements TelegramProvider {
   constructor(private token: string) {}
 
+  public isConfigured(): boolean {
+    return !!(this.token && this.token.trim().length > 0);
+  }
+
   public async sendMessage(chatId: string, message: string): Promise<void> {
-    if (!this.token) {
+    if (!this.isConfigured()) {
       throw new Error('Telegram token not configured');
     }
 

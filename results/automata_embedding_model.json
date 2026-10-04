@@ -1,0 +1,12 @@
+{
+  "model": "nomic-embed-text",
+  "download_authorized": true,
+  "downloaded": true,
+  "embedding_test": true,
+  "vector_dimension": 768,
+  "ollama_host_accessible": true,
+  "n8n_compatible": true,
+  "qdrant_collection_created": false,
+  "workflow_5148_modified": false,
+  "additional_models_downloaded": false
+}

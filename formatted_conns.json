@@ -1,0 +1,227 @@
+{
+    "Route by compliance status": {
+        "main": [
+            [
+                {
+                    "node": "Send critical compliance alert",
+                    "type": "main",
+                    "index": 0
+                },
+                {
+                    "node": "Create remediation tickets in Jira",
+                    "type": "main",
+                    "index": 0
+                },
+                {
+                    "node": "Store compliance report in PostgreSQL",
+                    "type": "main",
+                    "index": 0
+                }
+            ],
+            [
+                {
+                    "node": "Create remediation tickets in Jira",
+                    "type": "main",
+                    "index": 0
+                },
+                {
+                    "node": "Store compliance report in PostgreSQL",
+                    "type": "main",
+                    "index": 0
+                }
+            ],
+            [
+                {
+                    "node": "Store compliance report in PostgreSQL",
+                    "type": "main",
+                    "index": 0
+                },
+                {
+                    "node": "Update existing report in PostgreSQL",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Send critical compliance alert": {
+        "main": [
+            [
+                {
+                    "node": "Generate audit-ready HTML compliance report",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Merge scan results and log data": {
+        "main": [
+            [
+                {
+                    "node": "Analyze scan results and detect log anomalies",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Email audit-ready report to team": {
+        "main": [
+            [
+                {
+                    "node": "Log success and track compliance statistics",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Post compliance summary to Slack": {
+        "main": [
+            [
+                {
+                    "node": "Log success and track compliance statistics",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Create remediation tickets in Jira": {
+        "main": [
+            [
+                {
+                    "node": "Generate audit-ready HTML compliance report",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Fetch 7 days of SIEM security logs": {
+        "main": [
+            [
+                {
+                    "node": "Merge scan results and log data",
+                    "type": "main",
+                    "index": 1
+                }
+            ]
+        ]
+    },
+    "Update existing report in PostgreSQL": {
+        "main": [
+            [
+                {
+                    "node": "Generate audit-ready HTML compliance report",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Store compliance report in PostgreSQL": {
+        "main": [
+            [
+                {
+                    "node": "Generate audit-ready HTML compliance report",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Check for duplicate compliance reports": {
+        "main": [
+            [
+                {
+                    "node": "Route by compliance status",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Weekly compliance check every Monday 9 AM": {
+        "main": [
+            [
+                {
+                    "node": "Initiate full security scan across environments",
+                    "type": "main",
+                    "index": 0
+                },
+                {
+                    "node": "Fetch 7 days of SIEM security logs",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Generate audit-ready HTML compliance report": {
+        "main": [
+            [
+                {
+                    "node": "Filter for non-compliant and warning reports",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Filter for non-compliant and warning reports": {
+        "main": [
+            [
+                {
+                    "node": "Post compliance summary to Slack",
+                    "type": "main",
+                    "index": 0
+                },
+                {
+                    "node": "Email audit-ready report to team",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Analyze scan results and detect log anomalies": {
+        "main": [
+            [
+                {
+                    "node": "Check for duplicate compliance reports",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Initiate full security scan across environments": {
+        "main": [
+            [
+                {
+                    "node": "Merge scan results and log data",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    },
+    "Automata Webhook": {
+        "main": [
+            [
+                {
+                    "node": "Initiate full security scan across environments",
+                    "type": "main",
+                    "index": 0
+                },
+                {
+                    "node": "Fetch 7 days of SIEM security logs",
+                    "type": "main",
+                    "index": 0
+                }
+            ]
+        ]
+    }
+}

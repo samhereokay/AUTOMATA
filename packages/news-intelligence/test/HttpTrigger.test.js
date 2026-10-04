@@ -11,11 +11,13 @@ const HttpTrigger_1 = require("../src/HttpTrigger");
     let trigger;
     let orchestrator; // mock
     let feedService; // mock
+    let executionTracker; // mock
+    let moduleRegistry; // mock
     const port = 34567;
     const token = 'test-secret';
     t.beforeEach(async () => {
         orchestrator = {
-            run: async () => ({ collected: 10 }),
+            executePrompt: async () => ({ collected: 10 }),
             isCurrentlyRunning: false,
             startSchedule: () => { },
             stopSchedule: () => { }
@@ -25,10 +27,21 @@ const HttpTrigger_1 = require("../src/HttpTrigger");
             getById: async (id) => id === '123' ? { item: { id: '123' } } : null,
             search: async (query, options) => ({ items: [], pagination: { limit: 10, offset: 0, total: 0 } })
         };
+        executionTracker = {
+            listExecutions: async () => [{ id: 'exec_123', module: 'cybersecurity-news' }],
+            getExecution: async (id) => id === 'exec_123' ? { id: 'exec_123' } : null,
+            startExecution: async () => 'exec_abc',
+            completeExecution: async () => { },
+            failExecution: async () => { }
+        };
+        moduleRegistry = {
+            listModules: () => [{ id: 'cybersecurity-news', status: 'active' }],
+            getModule: (id) => id === 'cybersecurity-news' ? { id: 'cybersecurity-news', status: 'active' } : undefined
+        };
         trigger = new HttpTrigger_1.HttpTrigger(orchestrator, feedService, {
             port,
             authToken: token
-        });
+        }, executionTracker, moduleRegistry);
         await trigger.start();
     });
     t.afterEach(async () => {
@@ -79,7 +92,7 @@ const HttpTrigger_1 = require("../src/HttpTrigger");
     });
     await t.test('✔ Overlapping run returns 409 conflict', async () => {
         // Make the mock orchestrator return null to simulate overlap
-        orchestrator.run = async () => null;
+        orchestrator.executePrompt = async () => null;
         const res = await makeRequest('POST', '/api/news/run', {
             'Authorization': `Bearer ${token}`
         });
@@ -88,7 +101,7 @@ const HttpTrigger_1 = require("../src/HttpTrigger");
     });
     await t.test('✔ Pipeline failure returns 500 with structured error', async () => {
         // Make the mock orchestrator throw
-        orchestrator.run = async () => { throw new Error('Database down'); };
+        orchestrator.executePrompt = async () => { throw new Error('Database down'); };
         const res = await makeRequest('POST', '/api/news/run', {
             'Authorization': `Bearer ${token}`
         });
@@ -179,6 +192,36 @@ const HttpTrigger_1 = require("../src/HttpTrigger");
         });
         node_assert_1.default.strictEqual(res.statusCode, 204);
         node_assert_1.default.strictEqual(res.headers['access-control-allow-origin'], '*');
+    });
+    await t.test('✔ GET /api/modules returns modules', async () => {
+        const res = await makeRequest('GET', '/api/modules');
+        node_assert_1.default.strictEqual(res.status, 200);
+        node_assert_1.default.deepStrictEqual(res.data.modules, [{ id: 'cybersecurity-news', status: 'active' }]);
+    });
+    await t.test('✔ GET /api/modules/:id returns specific module', async () => {
+        const res = await makeRequest('GET', '/api/modules/cybersecurity-news');
+        node_assert_1.default.strictEqual(res.status, 200);
+        node_assert_1.default.strictEqual(res.data.id, 'cybersecurity-news');
+    });
+    await t.test('✔ GET /api/executions requires auth', async () => {
+        const res = await makeRequest('GET', '/api/executions');
+        node_assert_1.default.strictEqual(res.status, 401);
+    });
+    await t.test('✔ GET /api/executions returns executions list', async () => {
+        const res = await makeRequest('GET', '/api/executions', { 'Authorization': `Bearer ${token}` });
+        node_assert_1.default.strictEqual(res.status, 200);
+        node_assert_1.default.deepStrictEqual(res.data.executions, [{ id: 'exec_123', module: 'cybersecurity-news' }]);
+    });
+    await t.test('✔ GET /api/executions/:id returns execution details', async () => {
+        const res = await makeRequest('GET', '/api/executions/exec_123', { 'Authorization': `Bearer ${token}` });
+        node_assert_1.default.strictEqual(res.status, 200);
+        node_assert_1.default.strictEqual(res.data.id, 'exec_123');
+    });
+    await t.test('✔ POST /api/executions executes module', async () => {
+        const res = await makeRequest('POST', '/api/executions', { 'Authorization': `Bearer ${token}` });
+        node_assert_1.default.strictEqual(res.status, 201);
+        node_assert_1.default.strictEqual(res.data.status, 'success');
+        node_assert_1.default.strictEqual(res.data.module, 'cybersecurity-news');
     });
 });
 //# sourceMappingURL=HttpTrigger.test.js.map

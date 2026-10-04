@@ -12,6 +12,56 @@ class LocalAIProvider {
         this.timeoutMs = options?.timeoutMs || 30000;
         this.fetchFn = options?.fetchFn || fetch;
     }
+    async healthCheck() {
+        try {
+            const response = await this.fetchFn(`${this.baseUrl}/models`);
+            return response.ok;
+        }
+        catch {
+            return false;
+        }
+    }
+    async generate(prompt) {
+        return this.executePrompt([{ role: 'user', content: prompt }]);
+    }
+    async executePrompt(messages) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
+        try {
+            const response = await this.fetchFn(`${this.baseUrl}/chat/completions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model: this.model,
+                    messages
+                }),
+                signal: controller.signal
+            });
+            if (!response.ok) {
+                throw new Error(`AI Provider HTTP Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            if (!data || !data.choices || !data.choices[0] || !data.choices[0].message) {
+                throw new Error('Malformed provider response');
+            }
+            let content = data.choices[0].message.content;
+            if (!content) {
+                throw new Error('Empty content in provider response');
+            }
+            return content;
+        }
+        catch (e) {
+            if (e.name === 'AbortError' || (e.cause && e.cause.name === 'AbortError')) {
+                throw new Error(`AI Provider timeout after ${this.timeoutMs}ms`);
+            }
+            throw new Error(`AI Provider failed: ${e.message}`);
+        }
+        finally {
+            clearTimeout(timeoutId);
+        }
+    }
     async analyze(input) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);

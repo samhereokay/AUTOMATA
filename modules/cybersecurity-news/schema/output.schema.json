@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CybersecurityNewsOutput",
+  "description": "Output from a cybersecurity-news module execution.",
+  "type": "object",
+  "required": ["execution_id", "status"],
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Unique execution ID, e.g. exec_lq4x7k8_a3f2b1c9"
+    },
+    "module": {
+      "type": "string",
+      "const": "cybersecurity-news"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "failure"],
+      "description": "'success' = all stages passed, 'partial' = some stages failed but core succeeded, 'failure' = pipeline could not complete"
+    },
+    "result": {
+      "type": "object",
+      "properties": {
+        "items_collected": { "type": "integer" },
+        "items_deduplicated": { "type": "integer" },
+        "items_validated": { "type": "integer" },
+        "items_analyzed": { "type": "integer" },
+        "items_persisted": { "type": "integer" },
+        "items_notified": { "type": "integer" }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "properties": {
+        "passed": { "type": "boolean" },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "status"],
+            "properties": {
+              "name": { "type": "string" },
+              "status": { "type": "string", "enum": ["pass", "fail", "skip"] },
+              "detail": { "type": "string" }
+            }
+          }
+        },
+        "passCount": { "type": "integer" },
+        "failCount": { "type": "integer" },
+        "skipCount": { "type": "integer" }
+      }
+    },
+    "notifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": { "type": "string" },
+          "status": { "type": "string", "enum": ["sent", "skipped", "failed"] },
+          "detail": { "type": "string" },
+          "count": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

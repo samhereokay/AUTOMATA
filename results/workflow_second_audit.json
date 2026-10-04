@@ -1,0 +1,546 @@
+[
+  {
+    "id": "10591",
+    "name": "[AUTOMATA][CYBERSECUR] Detect and route cybersecurity threats with SIEM Slack email and PagerDuty",
+    "classification": "LOCAL_READY",
+    "secLevel": "MEDIUM",
+    "securityIssues": [
+      "Potential hardcoded secret or bearer token in parameters",
+      "Potential hardcoded secret or bearer token in parameters"
+    ],
+    "models": [],
+    "externalServices": [
+      "slack"
+    ],
+    "credentials": [
+      "n8n credential: slackApi",
+      "n8n credential: smtp",
+      "n8n credential: postgres"
+    ],
+    "storage": [
+      "postgres"
+    ],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Provide basic configuration/credentials"
+    ]
+  },
+  {
+    "id": "10597",
+    "name": "[AUTOMATA][CYBERSECUR] Monitor cybersecurity compliance and send weekly reports via SIEM Jira Post",
+    "classification": "LOCAL_READY",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [],
+    "externalServices": [],
+    "credentials": [
+      "n8n credential: postgres",
+      "n8n credential: smtp"
+    ],
+    "storage": [
+      "postgres"
+    ],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Provide basic configuration/credentials"
+    ]
+  },
+  {
+    "id": "14410",
+    "name": "[AUTOMATA][CYBERSECUR] Automate cybersecurity threat analysis with GPT-4o CVSS scoring and risk rou",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "id",
+        "value": "gpt-4o"
+      },
+      {
+        "__rl": true,
+        "mode": "id",
+        "value": "gpt-4o"
+      },
+      {
+        "__rl": true,
+        "mode": "id",
+        "value": "gpt-4o"
+      }
+    ],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: openAiApi"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "10242",
+    "name": "[AUTOMATA][CODING] Personalize resumes & cover letters with AI GitHub Pages and Google Drive",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-5",
+        "cachedResultName": "gpt-5"
+      },
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-5-mini",
+        "cachedResultName": "gpt-5-mini"
+      }
+    ],
+    "externalServices": [
+      "openai",
+      "telegram",
+      "github"
+    ],
+    "credentials": [
+      "n8n credential: openAiApi",
+      "n8n credential: googleSheetsOAuth2Api",
+      "n8n credential: googleDriveOAuth2Api",
+      "n8n credential: telegramApi",
+      "n8n credential: githubApi"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "11181",
+    "name": "[AUTOMATA][DESIGN] Automate print-on-demand: design to Shopify with AI mockups & social promotion",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "MEDIUM",
+    "securityIssues": [
+      "Potential hardcoded secret or bearer token in parameters"
+    ],
+    "models": [],
+    "externalServices": [
+      "openai",
+      "slack"
+    ],
+    "credentials": [],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "14429",
+    "name": "[AUTOMATA][DOCUMENTS] Generate event e-ticket PDFs with QR codes using Google Workspace",
+    "classification": "LOCAL_READY",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [],
+    "externalServices": [],
+    "credentials": [],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Provide basic configuration/credentials"
+    ]
+  },
+  {
+    "id": "2703",
+    "name": "[AUTOMATA][ASSISTANT] AI agent : Google calendar assistant using OpenAI",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      "gpt-4o"
+    ],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: openAiApi",
+      "n8n credential: googleCalendarOAuth2Api"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "3859",
+    "name": "[AUTOMATA][ASSISTANT] Ai customer support assistant · WhatsApp ready · works for any business",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-4o-mini"
+      }
+    ],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: openAiApi",
+      "n8n credential: whatsAppTriggerApi",
+      "n8n credential: whatsAppApi",
+      "n8n credential: postgres"
+    ],
+    "storage": [
+      "postgres"
+    ],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "5148",
+    "name": "[AUTOMATA][ARTIFICIAL] Local chatbot with retrieval augmented generation (RAG)",
+    "classification": "LOCAL_READY",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      "mxbai-embed-large:latest"
+    ],
+    "externalServices": [],
+    "credentials": [
+      "n8n credential: qdrantApi",
+      "n8n credential: ollamaApi"
+    ],
+    "storage": [
+      "qdrant"
+    ],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Provide basic configuration/credentials"
+    ]
+  },
+  {
+    "id": "20028",
+    "name": "[AUTOMATA][DOCUMENTS] Create and send quote PDFs with OpenAI Gmail and Google Sheets",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-5-mini"
+      },
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-5-mini"
+      }
+    ],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: googleSheetsTriggerOAuth2Api",
+      "n8n credential: openAiApi",
+      "n8n credential: googleSheetsOAuth2Api",
+      "n8n credential: googleDriveOAuth2Api",
+      "n8n credential: gmailOAuth2"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "3586",
+    "name": "[AUTOMATA][DOCUMENTS] AI-powered WhatsApp chatbot 🤖📲 for text voice images & PDFs with memory 🧠",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "MEDIUM",
+    "securityIssues": [
+      "Potential hardcoded secret or bearer token in parameters"
+    ],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-4o-mini"
+      }
+    ],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: whatsAppTriggerApi",
+      "n8n credential: httpHeaderAuth",
+      "n8n credential: openAiApi",
+      "n8n credential: whatsAppApi"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "19932",
+    "name": "[AUTOMATA][SOCIAL-MED] Generate social media posts and images with Groq OpenAI and Google Drive",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      "openai/gpt-oss-120b"
+    ],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: groqApi",
+      "n8n credential: openAiApi",
+      "n8n credential: googleDriveOAuth2Api"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "2557",
+    "name": "[AUTOMATA][NEWS] Hacker News to video content",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: openAiApi",
+      "n8n credential: googleDriveOAuth2Api",
+      "n8n credential: httpCustomAuth"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "4352",
+    "name": "[AUTOMATA][SOCIAL-MED] AI-powered multi-social media post automation: Google Trends & Perplexity AI",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: twitterOAuth2Api",
+      "n8n credential: linkedInCommunityManagementOAuth2Api",
+      "n8n credential: googleSheetsOAuth2Api",
+      "n8n credential: httpHeaderAuth",
+      "n8n credential: openAiApi"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "17010",
+    "name": "[AUTOMATA][SOCIAL-MED] Create and approve AI social posts with OpenAI Telegram and Blotato",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "={{ $('Configuration').item.json.text_model }}",
+        "cachedResultName": "gpt-5-mini"
+      },
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "={{ $('Configuration').item.json.text_model }}",
+        "cachedResultName": "gpt-5-mini"
+      }
+    ],
+    "externalServices": [
+      "openai",
+      "telegram"
+    ],
+    "credentials": [
+      "n8n credential: openAiApi",
+      "n8n credential: telegramApi",
+      "n8n credential: blotatoApi",
+      "n8n credential: googleSheetsOAuth2Api"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [
+      "@blotato/n8n-nodes-blotato.blotato"
+    ],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "4640",
+    "name": "[AUTOMATA][MONITORING] Competitor price monitoring with web scrapingGoogle Sheets & Telegram",
+    "classification": "LOCAL_READY",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [],
+    "externalServices": [
+      "telegram"
+    ],
+    "credentials": [
+      "n8n credential: googleSheetsOAuth2Api",
+      "n8n credential: telegramApi"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Provide basic configuration/credentials"
+    ]
+  },
+  {
+    "id": "2768",
+    "name": "[AUTOMATA][RESEARCH] 🤖🔍 The ultimate free AI-powered researcher with Tavily web search & extract",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "MEDIUM",
+    "securityIssues": [
+      "Potential hardcoded secret or bearer token in parameters",
+      "Potential hardcoded secret or bearer token in parameters",
+      "Potential hardcoded secret or bearer token in parameters"
+    ],
+    "models": [],
+    "externalServices": [
+      "openai",
+      "tavily"
+    ],
+    "credentials": [
+      "n8n credential: openAiApi"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "2883",
+    "name": "[AUTOMATA][RESEARCH] Open deep research - AI-powered autonomous research workflow",
+    "classification": "LOCAL_READY",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      "google/gemini-2.0-flash-001"
+    ],
+    "externalServices": [],
+    "credentials": [
+      "n8n credential: openRouterApi",
+      "n8n credential: httpHeaderAuth"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Provide basic configuration/credentials"
+    ]
+  },
+  {
+    "id": "3291",
+    "name": "[AUTOMATA][RESEARCH] 🔍🛠️Generate SEO-optimized WordPress content with AI powered perplexity resear",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-4o-mini"
+      },
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-4o-mini"
+      }
+    ],
+    "externalServices": [
+      "openai",
+      "telegram"
+    ],
+    "credentials": [
+      "n8n credential: wordpressApi",
+      "n8n credential: openAiApi",
+      "n8n credential: httpHeaderAuth",
+      "n8n credential: telegramApi",
+      "environment variable reference"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  },
+  {
+    "id": "10326",
+    "name": "[AUTOMATA][DESIGN] Generate QA test cases from Figma designs to Google Sheets using GPT-4o-mini",
+    "classification": "LOCAL_ADAPTABLE",
+    "secLevel": "LOW",
+    "securityIssues": [],
+    "models": [
+      {
+        "__rl": true,
+        "mode": "list",
+        "value": "gpt-4o-mini",
+        "cachedResultName": "gpt-4o-mini"
+      }
+    ],
+    "externalServices": [
+      "openai"
+    ],
+    "credentials": [
+      "n8n credential: httpHeaderAuth",
+      "n8n credential: openAiApi",
+      "n8n credential: googleSheetsOAuth2Api"
+    ],
+    "storage": [],
+    "subworkflows": [],
+    "customNodes": [],
+    "requiredChanges": [
+      "Point OpenAI credential to local Ollama base URL"
+    ]
+  }
+]

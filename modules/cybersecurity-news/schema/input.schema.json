@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CybersecurityNewsInput",
+  "description": "Input for the cybersecurity-news module execution. All fields are optional — defaults are used when absent.",
+  "type": "object",
+  "properties": {
+    "module": {
+      "type": "string",
+      "const": "cybersecurity-news",
+      "description": "Module identifier. Must be 'cybersecurity-news'."
+    }
+  },
+  "additionalProperties": false,
+  "notes": [
+    "categories: not yet used — all enabled cybersec sources are collected by default",
+    "max_items: not yet used — collector returns all available items from each source",
+    "notify: not yet used — Telegram notification is automatic when credentials are configured"
+  ]
+}

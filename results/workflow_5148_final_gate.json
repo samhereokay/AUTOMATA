@@ -1,0 +1,47 @@
+{
+  "workflow_id": "5148",
+  "classification": "BLOCKED",
+  "n8n_version": "2.34.6 (Compatible)",
+  "ai_providers": [
+    "Ollama"
+  ],
+  "models": [
+    "lmChatOllama (implicitly default)"
+  ],
+  "embedding_models": [
+    "mxbai-embed-large:latest"
+  ],
+  "vector_store": {
+    "provider": "Qdrant",
+    "collection": "rag_collection",
+    "mode": [
+      "insert",
+      "retrieve-as-tool"
+    ]
+  },
+  "external_dependencies": [],
+  "credentials_required": [
+    "qdrantApi",
+    "ollamaApi"
+  ],
+  "security_findings": [
+    {
+      "issue": "Unauthenticated document ingestion (Form Trigger)",
+      "level": "MEDIUM"
+    }
+  ],
+  "blockers": [
+    "No embedding model configured in Automata (defaults to 'none'). Workflow hardcodes 'mxbai-embed-large:latest'. Cannot download models per instructions."
+  ],
+  "required_changes": [
+    "Update lmChatOllama node to explicitly use the configured Automata chat model (qwen2.5:3b)",
+    "Update Embeddings Ollama nodes to use a valid local embedding model (currently blocked)",
+    "Configure qdrantApi to point to automata-qdrant endpoint"
+  ],
+  "optional_changes": [
+    "Add authentication to the form trigger to prevent arbitrary file uploads"
+  ],
+  "configuration_plan": [],
+  "execution_allowed": false,
+  "activation_allowed": false
+}

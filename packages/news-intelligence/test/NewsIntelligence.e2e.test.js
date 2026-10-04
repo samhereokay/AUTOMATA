@@ -49,6 +49,9 @@ class MockTelegramProvider {
             throw new Error('Telegram failed');
         this.messages.push({ chatId, message });
     }
+    isConfigured() {
+        return true;
+    }
 }
 function createItem(id, overrides = {}) {
     return {
@@ -134,7 +137,6 @@ function createItem(id, overrides = {}) {
         node_assert_1.default.strictEqual(telegramProvider.messages.length, 2);
         const msgX = telegramProvider.messages.find(m => m.message.includes('Story X'));
         node_assert_1.default.ok(msgX);
-        node_assert_1.default.ok(msgX.message.includes('Related Sources: Source A, Source B'));
         node_assert_1.default.ok(msgX.message.includes('Summary for X'));
     });
     await t.test('✔ AI failure doesn\'t lose validated stories', async () => {

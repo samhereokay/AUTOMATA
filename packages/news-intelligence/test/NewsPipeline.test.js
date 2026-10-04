@@ -45,6 +45,7 @@ class MockAIProvider {
 class MockTelegramProvider {
     shouldFail = false;
     messages = [];
+    isConfigured() { return true; }
     async sendMessage(chatId, message) {
         if (this.shouldFail)
             throw new Error('Telegram failed');
@@ -202,7 +203,7 @@ function createItem(id, overrides = {}) {
         const pipeline = new NewsPipeline_1.NewsPipeline(collectors, deduplicator, validator, analyzer, repository, telegramService);
         const res = await pipeline.run();
         node_assert_1.default.deepStrictEqual(Object.keys(res).sort(), [
-            'analyzed', 'collected', 'deduplicated', 'failures', 'notified', 'persisted', 'validated'
+            'analyzed', 'collected', 'deduplicated', 'executionId', 'failures', 'notified', 'persisted', 'telegramConfigured', 'validated'
         ]);
     });
 });

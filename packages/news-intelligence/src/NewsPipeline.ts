@@ -5,8 +5,10 @@ import { AIAnalyzer, AnalyzedNewsItem } from './AIAnalyzer';
 import { NewsRepository } from './NewsRepository';
 import { TelegramService } from './TelegramService';
 import { logger } from './logger';
+import { Provider, ProviderMetadata } from './core/Provider';
 
 export interface PipelineResult {
+  executionId?: string;  // Set by orchestrator before pipeline runs
   collected: number;
   deduplicated: number;
   validated: number;
@@ -14,9 +16,20 @@ export interface PipelineResult {
   persisted: number;
   notified: number;
   failures: Error[];
+  telegramConfigured: boolean; // Whether Telegram credentials were present
 }
 
-export class NewsPipeline {
+export class NewsPipeline implements Provider {
+  public readonly metadata: ProviderMetadata = {
+    id: 'core-news-pipeline',
+    name: 'Cybersecurity News Pipeline',
+    capabilities: ['news-intelligence'],
+    executionMode: 'local', // Since it orchestrates locally
+    costModel: 'free',
+    privacyModel: 'strict',
+    availability: 'available',
+    requiresCredentials: false
+  };
   constructor(
     private collectors: any[],
     private deduplicator: Deduplicator,
@@ -26,18 +39,28 @@ export class NewsPipeline {
     private telegram: TelegramService
   ) {}
 
-  public async run(): Promise<PipelineResult> {
+  public async healthCheck(): Promise<boolean> {
+    return true;
+  }
+
+  public async configure(): Promise<void> {
+    // Configured via constructor dependency injection
+  }
+
+  public async run(executionId?: string): Promise<PipelineResult> {
     const result: PipelineResult = {
+      executionId,
       collected: 0,
       deduplicated: 0,
       validated: 0,
       analyzed: 0,
       persisted: 0,
       notified: 0,
-      failures: []
+      failures: [],
+      telegramConfigured: this.telegram.isConfigured()
     };
 
-    logger.info('Pipeline started', { component: 'pipeline', event: 'pipeline.started' });
+    logger.info('Pipeline started', { component: 'pipeline', event: 'pipeline.started', executionId });
 
     // 1. Collect
     const collectedItems = [];
@@ -108,7 +131,7 @@ export class NewsPipeline {
       // 6. Notify
       try {
         logger.debug('Notification started', { component: 'pipeline', event: 'notification.started', itemId: item.id });
-        const notified = await this.telegram.notify(analyzedItem);
+        const notified = await this.telegram.notify(analyzedItem, executionId);
         if (notified) {
           result.notified++;
           logger.debug('Notification completed', { component: 'pipeline', event: 'notification.completed', itemId: item.id });
@@ -122,8 +145,10 @@ export class NewsPipeline {
     logger.info('Pipeline completed', { 
       component: 'pipeline', 
       event: 'pipeline.completed',
+      executionId,
       itemsCollected: result.collected,
       itemsPersisted: result.persisted,
+      itemsNotified: result.notified,
       failures: result.failures.length
     });
 

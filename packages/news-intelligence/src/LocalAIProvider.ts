@@ -20,6 +20,62 @@ export class LocalAIProvider implements AIProvider {
     this.fetchFn = options?.fetchFn || fetch;
   }
 
+  public async healthCheck(): Promise<boolean> {
+    try {
+      const response = await this.fetchFn(`${this.baseUrl}/models`);
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  public async generate(prompt: string): Promise<string> {
+    return this.executePrompt([{ role: 'user', content: prompt }]);
+  }
+
+  public async executePrompt(messages: { role: string; content: string }[]): Promise<string> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
+
+    try {
+      const response = await this.fetchFn(`${this.baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: this.model,
+          messages
+        }),
+        signal: controller.signal
+      });
+
+      if (!response.ok) {
+        throw new Error(`AI Provider HTTP Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (!data || !data.choices || !data.choices[0] || !data.choices[0].message) {
+        throw new Error('Malformed provider response');
+      }
+
+      let content = data.choices[0].message.content;
+      if (!content) {
+        throw new Error('Empty content in provider response');
+      }
+
+      return content;
+    } catch (e: any) {
+      if (e.name === 'AbortError' || (e.cause && e.cause.name === 'AbortError')) {
+        throw new Error(`AI Provider timeout after ${this.timeoutMs}ms`);
+      }
+      throw new Error(`AI Provider failed: ${e.message}`);
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
   public async analyze(input: string): Promise<string> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);

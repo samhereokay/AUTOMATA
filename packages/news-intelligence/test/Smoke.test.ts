@@ -11,6 +11,7 @@ class RealTelegramProvider implements TelegramProvider {
   constructor(token: string) {
     this.token = token;
   }
+  isConfigured(): boolean { return true; }
   async sendMessage(chatId: string, message: string): Promise<void> {
     const url = `https://api.telegram.org/bot${this.token}/sendMessage`;
     const res = await fetch(url, {

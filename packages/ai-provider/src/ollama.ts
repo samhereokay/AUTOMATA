@@ -3,10 +3,13 @@ import { AIProvider, GenerationOptions } from './types';
 export class OllamaProvider implements AIProvider {
   name = 'ollama';
   private endpoint: string;
+  private preferredModel: string | undefined;
 
-  constructor(endpoint: string = 'http://localhost:11434') {
+  constructor(endpoint: string = 'http://localhost:11434', model?: string) {
     this.endpoint = endpoint;
+    this.preferredModel = model;
   }
+
 
   async isAvailable(): Promise<boolean> {
     try {
@@ -80,6 +83,7 @@ export class OllamaProvider implements AIProvider {
   }
 
   private async getDefaultModel(): Promise<string | undefined> {
+    if (this.preferredModel) return this.preferredModel;
     const models = await this.getModels();
     return models.length > 0 ? models[0] : undefined;
   }

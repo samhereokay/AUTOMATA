@@ -1,0 +1,582 @@
+[
+  {
+    "id": "10242",
+    "name": "Personalize resumes & cover letters with AI, GitHub Pages and Google Drive",
+    "description": "Personalize resumes & cover letters with AI, GitHub Pages and Google Drive",
+    "category": "coding",
+    "source_url": "https://n8n.io/workflows/10242",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/10242/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "agent",
+      "lmChatOpenAi",
+      "memoryBufferWindow",
+      "outputParserStructured",
+      "dataTable",
+      "dataTableTool",
+      "googleSheets",
+      "googleDrive",
+      "telegram",
+      "chatTrigger",
+      "stickyNote",
+      "telegramTrigger",
+      "github",
+      "html",
+      "manualTrigger"
+    ],
+    "credentials": [
+      "openAiApi",
+      "googleSheetsOAuth2Api",
+      "googleDriveOAuth2Api",
+      "telegramApi",
+      "githubApi"
+    ],
+    "tags": [
+      "coding"
+    ]
+  },
+  {
+    "id": "10591",
+    "name": "Detect and route cybersecurity threats with SIEM, Slack, email and PagerDuty",
+    "description": "Detect and route cybersecurity threats with SIEM, Slack, email and PagerDuty",
+    "category": "cybersecurity",
+    "source_url": "https://n8n.io/workflows/10591",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/10591/workflow.json",
+    "status": "LOCAL READY",
+    "local_ai": true,
+    "requirements": [
+      "stickyNote",
+      "merge",
+      "slack",
+      "emailSend",
+      "postgres"
+    ],
+    "credentials": [
+      "slackApi",
+      "smtp",
+      "postgres"
+    ],
+    "tags": [
+      "cybersecurity"
+    ]
+  },
+  {
+    "id": "10597",
+    "name": "Monitor cybersecurity compliance and send weekly reports via SIEM, Jira, PostgreSQL, Slack and email",
+    "description": "Monitor cybersecurity compliance and send weekly reports via SIEM, Jira, PostgreSQL, Slack and email",
+    "category": "cybersecurity",
+    "source_url": "https://n8n.io/workflows/10597",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/10597/workflow.json",
+    "status": "LOCAL READY",
+    "local_ai": true,
+    "requirements": [
+      "stickyNote",
+      "merge",
+      "postgres",
+      "filter",
+      "emailSend"
+    ],
+    "credentials": [
+      "postgres",
+      "smtp"
+    ],
+    "tags": [
+      "cybersecurity"
+    ]
+  },
+  {
+    "id": "11181",
+    "name": "Automate print-on-demand: design to Shopify with AI, mockups & social promotion",
+    "description": "Automate print-on-demand: design to Shopify with AI, mockups & social promotion",
+    "category": "design",
+    "source_url": "https://n8n.io/workflows/11181",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/11181/workflow.json",
+    "status": "ADAPTABLE",
+    "local_ai": true,
+    "requirements": [
+      "stickyNote",
+      "googleDriveTrigger",
+      "openAi",
+      "shopify",
+      "slack",
+      "wait"
+    ],
+    "credentials": [],
+    "tags": [
+      "design"
+    ]
+  },
+  {
+    "id": "14410",
+    "name": "Automate cybersecurity threat analysis with GPT-4o, CVSS scoring and risk routing",
+    "description": "Automate cybersecurity threat analysis with GPT-4o, CVSS scoring and risk routing",
+    "category": "cybersecurity",
+    "source_url": "https://n8n.io/workflows/14410",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/14410/workflow.json",
+    "status": "LOCAL READY",
+    "local_ai": true,
+    "requirements": [
+      "manualTrigger",
+      "agent",
+      "lmChatOpenAi",
+      "outputParserStructured",
+      "agentTool",
+      "httpRequestTool",
+      "toolCalculator",
+      "toolCode",
+      "stickyNote"
+    ],
+    "credentials": [
+      "openAiApi"
+    ],
+    "tags": [
+      "cybersecurity"
+    ]
+  },
+  {
+    "id": "14429",
+    "name": "Generate event e-ticket PDFs with QR codes using Google Workspace",
+    "description": "Generate event e-ticket PDFs with QR codes using Google Workspace",
+    "category": "documents",
+    "source_url": "https://n8n.io/workflows/14429",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/14429/workflow.json",
+    "status": "LOCAL READY",
+    "local_ai": true,
+    "requirements": [
+      "manualTrigger",
+      "googleSheetsTrigger",
+      "noOp",
+      "googleDrive",
+      "googleDocs",
+      "gmail",
+      "googleSheets",
+      "stickyNote"
+    ],
+    "credentials": [],
+    "tags": [
+      "documents"
+    ]
+  },
+  {
+    "id": "17010",
+    "name": "Create and approve AI social posts with OpenAI, Telegram and Blotato",
+    "description": "Create and approve AI social posts with OpenAI, Telegram and Blotato",
+    "category": "social-media",
+    "source_url": "https://n8n.io/workflows/17010",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/17010/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "chainLlm",
+      "lmChatOpenAi",
+      "outputParserStructured",
+      "openAi",
+      "telegram",
+      "googleSheets",
+      "stickyNote"
+    ],
+    "credentials": [
+      "openAiApi",
+      "telegramApi",
+      "blotatoApi",
+      "googleSheetsOAuth2Api"
+    ],
+    "tags": [
+      "social-media"
+    ]
+  },
+  {
+    "id": "19932",
+    "name": "Generate social media posts and images with Groq, OpenAI and Google Drive",
+    "description": "Generate social media posts and images with Groq, OpenAI and Google Drive",
+    "category": "social-media",
+    "source_url": "https://n8n.io/workflows/19932",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/19932/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "formTrigger",
+      "agent",
+      "lmChatGroq",
+      "outputParserStructured",
+      "openAi",
+      "googleDrive",
+      "form",
+      "stickyNote"
+    ],
+    "credentials": [
+      "groqApi",
+      "openAiApi",
+      "googleDriveOAuth2Api"
+    ],
+    "tags": [
+      "social-media"
+    ]
+  },
+  {
+    "id": "20028",
+    "name": "Create and send quote PDFs with OpenAI, Gmail and Google Sheets",
+    "description": "Create and send quote PDFs with OpenAI, Gmail and Google Sheets",
+    "category": "documents",
+    "source_url": "https://n8n.io/workflows/20028",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/20028/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "googleSheetsTrigger",
+      "agent",
+      "lmChatOpenAi",
+      "googleSheets",
+      "googleDrive",
+      "gmail",
+      "gmailTrigger",
+      "informationExtractor",
+      "extractFromFile",
+      "merge",
+      "openAi",
+      "stickyNote"
+    ],
+    "credentials": [
+      "googleSheetsTriggerOAuth2Api",
+      "openAiApi",
+      "googleSheetsOAuth2Api",
+      "googleDriveOAuth2Api",
+      "gmailOAuth2"
+    ],
+    "tags": [
+      "documents"
+    ]
+  },
+  {
+    "id": "2557",
+    "name": "Hacker News to video content",
+    "description": "Hacker News to video content",
+    "category": "news",
+    "source_url": "https://n8n.io/workflows/2557",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/2557/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "manualTrigger",
+      "hackerNews",
+      "splitInBatches",
+      "lmChatOpenAi",
+      "toolHttpRequest",
+      "outputParserStructured",
+      "s3",
+      "wait",
+      "stickyNote",
+      "limit",
+      "openAi",
+      "agent",
+      "dropbox",
+      "googleDrive",
+      "microsoftOneDrive",
+      "youTube",
+      "twitter",
+      "linkedIn"
+    ],
+    "credentials": [
+      "openAiApi",
+      "googleDriveOAuth2Api",
+      "httpCustomAuth"
+    ],
+    "tags": [
+      "news"
+    ]
+  },
+  {
+    "id": "2703",
+    "name": "AI agent : Google calendar assistant using OpenAI",
+    "description": "AI agent : Google calendar assistant using OpenAI",
+    "category": "assistant",
+    "source_url": "https://n8n.io/workflows/2703",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/2703/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "chatTrigger",
+      "lmChatOpenAi",
+      "memoryBufferWindow",
+      "googleCalendarTool",
+      "stickyNote",
+      "agent"
+    ],
+    "credentials": [
+      "openAiApi",
+      "googleCalendarOAuth2Api"
+    ],
+    "tags": [
+      "assistant"
+    ]
+  },
+  {
+    "id": "2768",
+    "name": "🤖🔍 The ultimate free AI-powered researcher with Tavily web search & extract",
+    "description": "🤖🔍 The ultimate free AI-powered researcher with Tavily web search & extract",
+    "category": "research",
+    "source_url": "https://n8n.io/workflows/2768",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/2768/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "stickyNote",
+      "lmChatOpenAi",
+      "chainLlm",
+      "chatTrigger"
+    ],
+    "credentials": [
+      "openAiApi"
+    ],
+    "tags": [
+      "research"
+    ]
+  },
+  {
+    "id": "2883",
+    "name": "Open deep research - AI-powered autonomous research workflow",
+    "description": "Open deep research - AI-powered autonomous research workflow",
+    "category": "research",
+    "source_url": "https://n8n.io/workflows/2883",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/2883/workflow.json",
+    "status": "LOCAL READY",
+    "local_ai": true,
+    "requirements": [
+      "chatTrigger",
+      "chainLlm",
+      "lmChatOpenRouter",
+      "agent",
+      "splitInBatches",
+      "memoryBufferWindow",
+      "toolWikipedia",
+      "stickyNote"
+    ],
+    "credentials": [
+      "openRouterApi",
+      "httpHeaderAuth"
+    ],
+    "tags": [
+      "research"
+    ]
+  },
+  {
+    "id": "3291",
+    "name": "🔍🛠️Generate SEO-optimized WordPress content with AI powered perplexity research",
+    "description": "🔍🛠️Generate SEO-optimized WordPress content with AI powered perplexity research",
+    "category": "research",
+    "source_url": "https://n8n.io/workflows/3291",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/3291/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "stickyNote",
+      "wordpress",
+      "lmChatOpenAi",
+      "outputParserStructured",
+      "agent",
+      "openAi",
+      "merge",
+      "formTrigger",
+      "telegram",
+      "aggregate"
+    ],
+    "credentials": [
+      "wordpressApi",
+      "openAiApi",
+      "httpHeaderAuth",
+      "telegramApi"
+    ],
+    "tags": [
+      "research"
+    ]
+  },
+  {
+    "id": "3586",
+    "name": "AI-powered WhatsApp chatbot 🤖📲 for text, voice, images & PDFs with memory 🧠",
+    "description": "AI-powered WhatsApp chatbot 🤖📲 for text, voice, images & PDFs with memory 🧠",
+    "category": "documents",
+    "source_url": "https://n8n.io/workflows/3586",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/3586/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "whatsAppTrigger",
+      "openAi",
+      "lmChatOpenAi",
+      "agent",
+      "extractFromFile",
+      "memoryBufferWindow",
+      "whatsApp",
+      "stickyNote"
+    ],
+    "credentials": [
+      "whatsAppTriggerApi",
+      "httpHeaderAuth",
+      "openAiApi",
+      "whatsAppApi"
+    ],
+    "tags": [
+      "documents"
+    ]
+  },
+  {
+    "id": "3859",
+    "name": "Ai customer support assistant · WhatsApp ready · works for any business",
+    "description": "Ai customer support assistant · WhatsApp ready · works for any business",
+    "category": "assistant",
+    "source_url": "https://n8n.io/workflows/3859",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/3859/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "agent",
+      "toolHttpRequest",
+      "lmChatOpenAi",
+      "whatsAppTrigger",
+      "whatsApp",
+      "memoryPostgresChat",
+      "stickyNote"
+    ],
+    "credentials": [
+      "openAiApi",
+      "whatsAppTriggerApi",
+      "whatsAppApi",
+      "postgres"
+    ],
+    "tags": [
+      "assistant"
+    ]
+  },
+  {
+    "id": "4352",
+    "name": "AI-powered multi-social media post automation: Google Trends & Perplexity AI",
+    "description": "AI-powered multi-social media post automation: Google Trends & Perplexity AI",
+    "category": "social-media",
+    "source_url": "https://n8n.io/workflows/4352",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/4352/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "twitter",
+      "facebookGraphApi",
+      "linkedIn",
+      "googleSheets",
+      "splitOut",
+      "openAi",
+      "stickyNote",
+      "wait"
+    ],
+    "credentials": [
+      "twitterOAuth2Api",
+      "linkedInCommunityManagementOAuth2Api",
+      "googleSheetsOAuth2Api",
+      "httpHeaderAuth",
+      "openAiApi"
+    ],
+    "tags": [
+      "social-media"
+    ]
+  },
+  {
+    "id": "4640",
+    "name": "Competitor price monitoring with web scraping,Google Sheets & Telegram",
+    "description": "Competitor price monitoring with web scraping,Google Sheets & Telegram",
+    "category": "monitoring",
+    "source_url": "https://n8n.io/workflows/4640",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/4640/workflow.json",
+    "status": "LOCAL READY",
+    "local_ai": true,
+    "requirements": [
+      "stickyNote",
+      "googleSheets",
+      "splitInBatches",
+      "wait",
+      "html",
+      "telegram"
+    ],
+    "credentials": [
+      "googleSheetsOAuth2Api",
+      "telegramApi"
+    ],
+    "tags": [
+      "monitoring"
+    ]
+  },
+  {
+    "id": "10326",
+    "name": "Generate QA test cases from Figma designs to Google Sheets using GPT-4o-mini",
+    "description": "Generate QA test cases from Figma designs to Google Sheets using GPT-4o-mini",
+    "category": "design",
+    "source_url": "https://n8n.io/workflows/10326",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/10326/workflow.json",
+    "status": "EXTERNAL / CREDENTIAL REQUIRED",
+    "local_ai": true,
+    "requirements": [
+      "stickyNote",
+      "manualTrigger",
+      "lmChatOpenAi",
+      "googleSheets",
+      "outputParserStructured",
+      "memoryBufferWindow",
+      "agent"
+    ],
+    "credentials": [
+      "httpHeaderAuth",
+      "openAiApi",
+      "googleSheetsOAuth2Api"
+    ],
+    "tags": [
+      "design"
+    ]
+  },
+  {
+    "id": "5148",
+    "name": "Local chatbot with retrieval augmented generation (RAG)",
+    "description": "Local chatbot with retrieval augmented generation (RAG)",
+    "category": "artificial-intelligence",
+    "source_url": "https://n8n.io/workflows/5148",
+    "source_platform": "n8n",
+    "workflow_json": "/workflows/5148/workflow.json",
+    "status": "LOCAL READY",
+    "local_ai": true,
+    "requirements": [
+      "formTrigger",
+      "vectorStoreQdrant",
+      "embeddingsOllama",
+      "documentDefaultDataLoader",
+      "textSplitterRecursiveCharacterTextSplitter",
+      "stickyNote",
+      "chatTrigger",
+      "agent",
+      "lmChatOllama",
+      "memoryBufferWindow"
+    ],
+    "credentials": [
+      "qdrantApi",
+      "ollamaApi"
+    ],
+    "tags": [
+      "artificial-intelligence"
+    ]
+  }
+]

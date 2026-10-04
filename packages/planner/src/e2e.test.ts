@@ -1,6 +1,6 @@
 import { AIPlanner } from './planner';
 import { OllamaProvider } from '@automata/ai-provider';
-import { N8nRestAPIClient, AutomataExecutionManager } from '@automata/n8n-client';
+import { N8nExecutionAdapter, AutomataExecutionManager } from '@automata/n8n-client';
 
 const capabilities = [
   'research', 'web_search', 'citations',
@@ -25,7 +25,7 @@ async function runE2E() {
   }
 
   const planner = new AIPlanner(provider);
-  const n8nClient = new N8nRestAPIClient('http://localhost:5678', 'dummy-key');
+  const n8nClient = new N8nExecutionAdapter('http://localhost:5678', 'dummy-key');
   const executionManager = new AutomataExecutionManager(n8nClient);
   
   const testCases = [

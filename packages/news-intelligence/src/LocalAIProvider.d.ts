@@ -11,6 +11,12 @@ export declare class LocalAIProvider implements AIProvider {
     private timeoutMs;
     private fetchFn;
     constructor(options?: LocalAIProviderOptions);
+    healthCheck(): Promise<boolean>;
+    generate(prompt: string): Promise<string>;
+    executePrompt(messages: {
+        role: string;
+        content: string;
+    }[]): Promise<string>;
     analyze(input: string): Promise<string>;
 }
 //# sourceMappingURL=LocalAIProvider.d.ts.map

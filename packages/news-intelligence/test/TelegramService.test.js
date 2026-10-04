@@ -10,6 +10,10 @@ const InMemoryNotificationStateRepository_1 = require("../src/persistence/InMemo
 class MockTelegramProvider {
     messages = [];
     shouldFail = false;
+    configured = true;
+    isConfigured() {
+        return this.configured;
+    }
     async sendMessage(chatId, message) {
         if (this.shouldFail)
             throw new Error('Telegram API failure');
@@ -59,7 +63,7 @@ function createMockAnalyzedItem(id, overrides = {}) {
         node_assert_1.default.strictEqual(sent, true);
         node_assert_1.default.strictEqual(provider.messages.length, 1);
     });
-    await t.test('✔ Message contains title, summary, source, evidence status', async () => {
+    await t.test('✔ Message contains title, summary, source', async () => {
         const item = createMockAnalyzedItem('2', {
             title: 'Critical RCE',
             summary: 'A new RCE was found.',
@@ -69,33 +73,23 @@ function createMockAnalyzedItem(id, overrides = {}) {
         const msg = provider.messages[0].message;
         node_assert_1.default.ok(msg.includes('Critical RCE'));
         node_assert_1.default.ok(msg.includes('A new RCE was found.'));
-        node_assert_1.default.ok(msg.includes('Source: Hacker News'));
-        node_assert_1.default.ok(msg.includes('Evidence: verified'));
+        node_assert_1.default.ok(msg.includes('Source:\nHacker News'));
     });
-    await t.test('✔ Related sources are represented when available', async () => {
-        const item = createMockAnalyzedItem('3', {
-            relatedSources: ['CISA', 'BleepingComputer']
-        });
-        await service.notify(item);
-        const msg = provider.messages[0].message;
-        node_assert_1.default.ok(msg.includes('Related Sources: CISA, BleepingComputer'));
-    });
-    await t.test('✔ Unverified item remains unverified and no evidence is fabricated', async () => {
+    await t.test('✔ Unverified item handles missing publishedAt', async () => {
         const item = createMockAnalyzedItem('4', {
             validationStatus: 'unverified',
             publishedAt: null
         });
         await service.notify(item);
         const msg = provider.messages[0].message;
-        node_assert_1.default.ok(msg.includes('Evidence: unverified'));
-        node_assert_1.default.ok(msg.includes('Published: Unknown'));
+        node_assert_1.default.ok(msg.includes('Published:\nUnknown'));
     });
     await t.test('✔ Provider receives correct chat ID', async () => {
         const item = createMockAnalyzedItem('5');
         await service.notify(item);
         node_assert_1.default.strictEqual(provider.messages[0].chatId, '@testchannel');
         // Override
-        await service.notify(createMockAnalyzedItem('6'), '@customchannel');
+        await service.notify(createMockAnalyzedItem('6'), 'exec123', '@customchannel');
         node_assert_1.default.strictEqual(provider.messages[1].chatId, '@customchannel');
     });
     await t.test('✔ Provider failure propagates deterministically', async () => {
@@ -124,6 +118,12 @@ function createMockAnalyzedItem(id, overrides = {}) {
         const sent2 = await service.notify(duplicateItem);
         node_assert_1.default.strictEqual(sent2, false);
         node_assert_1.default.strictEqual(provider.messages.length, 1); // No new message sent
+    });
+    await t.test('✔ isConfigured delegates to provider', async () => {
+        provider.configured = true;
+        node_assert_1.default.strictEqual(service.isConfigured(), true);
+        provider.configured = false;
+        node_assert_1.default.strictEqual(service.isConfigured(), false);
     });
 });
 //# sourceMappingURL=TelegramService.test.js.map

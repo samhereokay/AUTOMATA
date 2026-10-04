@@ -1,0 +1,26 @@
+{
+  "ollama_endpoint": "http://localhost:11434",
+  "installed_models": [
+    {
+      "name": "qwen2.5:3b",
+      "model": "qwen2.5:3b",
+      "family": "qwen2",
+      "parameter_size": "3.1B",
+      "capabilities": ["completion", "tools"]
+    }
+  ],
+  "installed_embedding_models": [],
+  "automata_embedding_model_config": "none",
+  "embedding_provider": {
+    "file": "LocalEmbeddingProvider.ts",
+    "api": "/api/embeddings",
+    "default_model": "none",
+    "dimension_handling": "dynamic via test prompt upon initialization"
+  },
+  "qdrant_collections": [],
+  "decision": "NO_EMBEDDING_MODEL_AVAILABLE",
+  "workflow_5148_status": "BLOCKED",
+  "model_download_performed": false,
+  "workflow_modified": false,
+  "credentials_modified": false
+}

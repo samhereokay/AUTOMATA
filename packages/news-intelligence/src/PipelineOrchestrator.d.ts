@@ -1,19 +1,22 @@
-import { NewsPipeline, PipelineResult } from './NewsPipeline';
+import { Planner } from './planner/Planner';
+import { ProviderRouter } from './router/ProviderRouter';
+import { MemoryRouter } from './router/MemoryRouter';
+import { StorageRouter } from './router/StorageRouter';
+import { ExecutionTracker } from './ExecutionTracker';
 export declare class PipelineOrchestrator {
-    private pipeline;
+    private planner;
+    private providerRouter;
+    private memoryRouter;
+    private storageRouter;
+    private executionTracker;
     private isRunning;
     private timer;
-    constructor(pipeline: NewsPipeline);
+    constructor(planner: Planner, providerRouter: ProviderRouter, memoryRouter: MemoryRouter, storageRouter: StorageRouter, executionTracker: ExecutionTracker);
     /**
-     * Execute the pipeline. Returns null if already running (prevents overlap).
+     * Execute the full automation OS pipeline from a natural language prompt.
+     * Prompts -> Plan -> Route -> Execute -> Verify -> Track
      */
-    run(): Promise<PipelineResult | null>;
-    /**
-     * Start a recurring schedule for the pipeline.
-     * @param intervalMs The interval in milliseconds
-     */
-    startSchedule(intervalMs: number): void;
-    stopSchedule(): void;
+    executePrompt(prompt: string): Promise<Record<string, unknown> | null>;
     get isCurrentlyRunning(): boolean;
 }
 //# sourceMappingURL=PipelineOrchestrator.d.ts.map
