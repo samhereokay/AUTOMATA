@@ -1,0 +1,126 @@
+{
+  "name": "TradingView Email Alert -> Telegram Call",
+  "nodes": [
+    {
+      "parameters": {
+        "mailbox": "INBOX",
+        "postProcessAction": "read",
+        "format": "simple",
+        "options": {
+          "customEmailConfig": "[\"UNSEEN\", [\"FROM\", \"noreply@tradingview.com\"]]",
+          "forceReconnect": 60
+        }
+      },
+      "id": "a1f0c1d2-0001-4a00-9000-000000000001",
+      "name": "TradingView Email (IMAP)",
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "credentials": {
+        "imap": {
+          "id": "REPLACE_ME",
+          "name": "IMAP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "cond-subject-alert",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "alert",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1f0c1d2-0002-4a00-9000-000000000002",
+      "name": "Is Price Alert?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const subject = ($json.subject || 'TradingView alert').toString();\nconst clean = subject.replace(/[^\\w\\s.,:@%$+-]/g, ' ').replace(/\\s+/g, ' ').trim();\nreturn [{ json: { subject, spoken: 'TradingView alert. ' + clean, text: 'TradingView alert: ' + subject } }];"
+      },
+      "id": "a1f0c1d2-0003-4a00-9000-000000000003",
+      "name": "Build Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://api.callmebot.com/start.php",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "source", "value": "web" },
+            { "name": "user", "value": "@YOUR_TELEGRAM_USERNAME" },
+            { "name": "text", "value": "={{ $json.spoken }}" },
+            { "name": "lang", "value": "en-US-Standard-B" },
+            { "name": "rpt", "value": "2" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1f0c1d2-0004-4a00-9000-000000000004",
+      "name": "Telegram Voice Call (CallMeBot)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [740, -100]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_TELEGRAM_CHAT_ID",
+        "text": "={{ $('Build Message').item.json.text }}",
+        "additionalFields": {}
+      },
+      "id": "a1f0c1d2-0005-4a00-9000-000000000005",
+      "name": "Telegram Message (backup)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [740, 100],
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "TradingView Email (IMAP)": {
+      "main": [[{ "node": "Is Price Alert?", "type": "main", "index": 0 }]]
+    },
+    "Is Price Alert?": {
+      "main": [
+        [{ "node": "Build Message", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Build Message": {
+      "main": [[
+        { "node": "Telegram Voice Call (CallMeBot)", "type": "main", "index": 0 },
+        { "node": "Telegram Message (backup)", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false,
+  "pinData": {}
+}
